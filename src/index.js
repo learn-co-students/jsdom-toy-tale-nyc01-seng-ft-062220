@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  
     function renderToy(toy){
-      console.log(toy, "toy")
+     
       const divContainer = document.querySelector("#toy-collection")
       const toyContainer = document.createElement('div')
       divContainer.appendChild(toyContainer)
@@ -43,5 +43,40 @@ document.addEventListener("DOMContentLoaded", () => {
   
 
   getToys()
+
+  let form = document.querySelector(".add-toy-form")
   
+  form.addEventListener("submit", function(e){
+    e.preventDefault()
+    let name = e.target.name.value
+    let image = e.target.image.value
+    let likes = 0
+    let newToy = {
+      name: name,
+      image: image,
+      likes: likes
+    }
+
+    renderToy(newToy) 
+     
+      
+
+      fetch(`http://localhost:3000/toys`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: name, 
+          image: image, 
+          likes: likes
+        })
+      })
+
+
+
+
+  })
+
 })

@@ -47,6 +47,12 @@
       "name": "Little Green Men",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Alien-PNG-File.png",
       "likes": -2
+    },
+    {
+      "name": "Mickey Mouse",
+      "image": "https://cdn.arstechnica.net/wp-content/uploads/2019/01/Standing-Picture-Of-Micky-Mouse1.jpg",
+      "likes": 0,
+      "id": 9
     }
   ]
 }
