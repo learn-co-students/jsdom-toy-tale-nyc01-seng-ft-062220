@@ -53,8 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  clickHandler()
-  likesHandler()
 
   function updateLikes(updateLikes, toyId){
     fetch(`http://localhost:3000/toys/${toyId}`,{
@@ -78,26 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(toys => toys.forEach(toy => addCard(toy)));
   }
 
-function addCard(toy){
-  // grab cards id 
-  const mainDiv = document.getElementById("toy-collection")
-  // create new element div
-  const newDiv = document.createElement("div") 
-  newDiv.className = "card"
-  //apply the toy obj onto the div (id, name, image, likes)
-  newDiv.innerHTML = `
-  <h4>${toy.id}</h4>
-  <h2>${toy.name}</h2>
-  <img class="toy-avatar" alt=""
-      src="${toy.image}" />
-  <p class="likes">${toy.likes}</p>
-  <button class="like-btn">Likes</button>
-  `
-  mainDiv.appendChild(newDiv)
+  function addCard(toy){
+    // grab cards id 
+    const mainDiv = document.getElementById("toy-collection")
+    // create new element div
+    const newDiv = document.createElement("div") 
+    newDiv.className = "card"
+    //apply the toy obj onto the div (id, name, image, likes)
+    newDiv.innerHTML = `
+    <h4>${toy.id}</h4>
+    <h2>${toy.name}</h2>
+    <img class="toy-avatar" alt=""
+        src="${toy.image}" />
+    <p class="likes">${toy.likes}</p>
+    <button class="like-btn">Likes</button>
+    `
+    mainDiv.appendChild(newDiv)
 
-}
-
-
+  }
 
 
   function uploadToy(toyObj){
@@ -118,6 +114,6 @@ function addCard(toy){
 
 
 
-
-
-  fetchToys();
+  clickHandler()
+  likesHandler()
+  fetchToys()
