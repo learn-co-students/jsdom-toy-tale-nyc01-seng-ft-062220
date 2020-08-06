@@ -1,0 +1,57 @@
+
+function clickHandler(){
+    document.addEventListener("click", function(e){
+        if (e.target.matches("#new-toy-btn")){
+        const button = e.target
+        const newToyForm = document.createElement('form')
+        newToyForm.innerHTML = `
+          <label>Title: </label>
+          <input type="text" name="title">
+          <br>
+          <label>Year: </label>
+          <input type="text" name="year">
+          <br>
+          <label>Genre: </label>
+          <input type="text" name="genre">
+          <br>
+          <label>Image URL: </label>
+          <input type="text" name="imageUrl">
+          <br>
+          <input type="submit" value="Add Movie">
+        `
+
+        button.insertAdjacentElement("afterend", newToyForm)
+        button.id = "hide-form"
+        button.textContent = "Hide Form"
+      } else if (e.target.matches('#hide-form')){
+        const button = e.target
+        const form = button.nextSibling
+        form.remove()
+
+        button.textContent = 'Show Form'
+        button.id = "show-form"
+      }
+    })
+  }
+
+  const submitHandler = () => {
+    document.addEventListener('submit', e => {
+      e.preventDefault()
+
+      const newMovieForm = e.target
+
+      const title = newMovieForm.title.value
+      const year = newMovieForm.year.value
+      const genre = newMovieForm.genre.value
+      const imageUrl = newMovieForm.imageUrl.value
+      const score = 0
+
+      const movieObj = { title: title, year: year, genre: genre, imageUrl: imageUrl, score: score }
+
+      renderMovie(movieObj)
+
+      newMovieForm.reset()
+    })
+  }
+
+  clickHandler()
