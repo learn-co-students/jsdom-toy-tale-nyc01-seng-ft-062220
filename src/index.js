@@ -2,101 +2,104 @@ let addToy = false;
 
 document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.querySelector("#new-toy-btn");
-  const toyFormContainer = document.querySelector(".container");
+  const toyForm = document.querySelector(".container");
+  const url = 'http://localhost:3000/toys/'
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
     addToy = !addToy;
     if (addToy) {
-      toyFormContainer.style.display = "block";
+      toyForm.style.display = "block";
+      toyForm.addEventListener("submit", event => {
+        event.preventDefault()
+        renderNewToy(event.target)
+      })
     } else {
-      toyFormContainer.style.display = "none";
+      toyForm.style.display = "none";
     } 
   });
 
 
-function submitToy(){
-  document.addEventListener("submit", e => {
-    const newToyObj = e.target 
-    
-    const name = newToyObj.name.value
-    const image = newToyObj.image.value
-    const likes = 0
-    const toyObj = { 
-      name: name,
-      image: image,
-      likes: likes
-    };
-    
-    let configObj = {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-      },
-      body: JSON.stringify(toyObj)
-    };
+const getToy = () => {
+  return fetch(url)
+  .then(resp => resp.json())
+};
 
-    fetch('http://localhost:3000/toys', configObj)
-
-  });
+const postNewToy = (newToy) => {
+  let toyObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(newToy) 
+  };
+  fetch(url, toyObj)
+  .then(resp => resp.json())
+  .then(newtoy => renderToy(newtoy))
 };
 
 
-function renderToys(json){
-  const container = document.getElementById("toy-collection")
-
-  for (const toyAttr of json){
+const renderToy = (toy) => {
+  const toyCards = document.querySelector("#toy-collection")
   const toyCard = document.createElement("div")
-  toyCard.classList.add("card")
+  toyCard.className = "card"
   toyCard.innerHTML = `
-  <h2>${toyAttr.name}</h2>
-  <img src= ${toyAttr.image} class="toy-avatar" />
-  <p id=${toyAttr.id}> ${toyAttr.likes} Likes </p>
-  <button class="like-btn">Like <3</button>
+    <h2>${toy.name}</h2>
+    <img src=${toy.image} class="toy-avatar" />
+    <p id=${toy.id}> ${toy.likes} likes</p>
+    <button class="like-btn">Like <3</button>
   `
-  container.append(toyCard)
+  toyCards.append(toyCard)
+};
+
+
+const renderNewToy = (input) => {
+  let name = input.name.value
+  let image = input.image.value
+  newToy = {
+    "name": name,
+    "image": image
   };
+  postNewToy(newToy);
+};
 
-}
-
-function likeHandler(){
+const increaseLikes = () => {
   document.addEventListener("click", function(e){
     if (e.target.matches(".like-btn")){
-      const likeBtn = e.target
-      const toyId = likeBtn.previousSibling.previousSibling.id
-      const likes = parseInt(likeBtn.previousSibling.previousSibling.innerText) + 1
-      const toyIdEle = likeBtn.previousSibling.previousSibling
-
-      toyIdEle.innerText = `${parseInt(likes)} Likes`
-    
-      let configObj = {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          "likes": likes
-        })
-      };
-      fetch(`http://localhost:3000/toys/${toyId}`, configObj)
-      };
+    const toy = e.target.previousElementSibling
+    const likes = {"likes": `${parseInt(toy.innerHTML) + 1}`}
+    const toyId = toy.id
+    patchToy(toyId, likes)
+    }
   });
 };
 
+increaseLikes()
 
-function getToys() {
-  fetch('http://localhost:3000/toys')
+const patchToy = (toyId, likes) => {
+  let toyObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(likes) 
+  };
+  fetch(url + toyId, toyObj)
   .then(resp => resp.json())
-  .then(toysResponse => renderToys(toysResponse));
-}
+  .then(toy => {
+    let likeEle = document.getElementById(`${toy.id}`)
+    likeEle.innerText = `${toy.likes} likes`
+  })
+};
 
 
-getToys();
-likeHandler();
-submitToy();
-
+getToy().then(toys => {
+  toys.forEach(toy => {
+    renderToy(toy)
+  });
 });
 
+});
 
 
