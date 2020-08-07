@@ -16,7 +16,7 @@
       "id": 3,
       "name": "Mr. Potato Head",
       "image": "https://vignette.wikia.nocookie.net/universe-of-smash-bros-lawl/images/d/d8/Mr-potato-head-toy-story.gif/revision/latest?cb=20151129131217",
-      "likes": 3
+      "likes": 8
     },
     {
       "id": 4,
@@ -47,6 +47,30 @@
       "name": "Little Green Men",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Alien-PNG-File.png",
       "likes": -2
+    },
+    {
+      "name": "Teddy bear",
+      "image": "https://w1.pngwave.com/png/832/1015/581/teddy-bear-cartoon-brown-toy-pink-stuffed-toy-baby-toys-png-clip-art.png",
+      "likes": 0,
+      "id": 9
+    },
+    {
+      "name": "new toy",
+      "image": "https://w1.pngwave.com/png/832/1015/581/teddy-bear-cartoon-brown-toy-pink-stuffed-toy-baby-toys-png-clip-art.png",
+      "likes": 0,
+      "id": 10
+    },
+    {
+      "name": "magic toy",
+      "image": "https://w1.pngwave.com/png/832/1015/581/teddy-bear-cartoon-brown-toy-pink-stuffed-toy-baby-toys-png-clip-art.png",
+      "likes": 0,
+      "id": 11
+    },
+    {
+      "name": "another magic toy",
+      "image": "https://w1.pngwave.com/png/832/1015/581/teddy-bear-cartoon-brown-toy-pink-stuffed-toy-baby-toys-png-clip-art.png",
+      "likes": 0,
+      "id": 12
     }
   ]
 }
