@@ -11,29 +11,29 @@ document.addEventListener("DOMContentLoaded", () => {
       toyFormContainer.style.display = "none";
     }
   });
+  const divContainer = document.querySelector("#toy-collection")
+
   BASE_URL = "http://localhost:3000/toys"
-   const getToys = ()=>{
+
+   
     fetch(BASE_URL)
     .then(response => response.json())
-    // .then(toysCollection => console.log(toysCollection))
     .then(toys => toys.forEach(toy =>renderToy(toy)))
-  }
-    function renderToy(toy){
-      const divContainer = document.querySelector("#toy-collection")
-      const toyContainer = document.createElement('div')
-      divContainer.appendChild(toyContainer)
-      toyContainer.innerHTML = `
-      <div class="card">
-      <h2>${toy.name}</h2>
-      <img src=${toy.image} class="toy-avatar" />
-      <p> ${toy.likes} Likes </p>
-      <button class="like-btn" id =${toy.id}>Like <3</button>
-      </div>
-      `
-    }
-
-    getToys()
-
+    
+       function renderToy(toy){
+         const toyContainer = document.createElement('div')
+         divContainer.appendChild(toyContainer)
+         toyContainer.innerHTML = `
+         <div class="card">
+         <h2>${toy.name}</h2>
+         <img src=${toy.image} class="toy-avatar" />
+         <p> ${toy.likes} Likes </p>
+         <button class="like-btn" id =${toy.id}>Like <3</button>
+         </div>
+         `
+       }//f renderToy
+  
+     
     let form = document.querySelector(".add-toy-form")
     form.addEventListener("submit", function(e){  
     e.preventDefault()
@@ -59,36 +59,32 @@ document.addEventListener("DOMContentLoaded", () => {
           likes: likes
         })
        })
-     })
-
-     let toysCollection = document.querySelector("#toy-collection")
-     toysCollection.addEventListener("click", function(e){
-      //  console.log(e.target)
-       let likeText = e.target.parentNode.children[2].innerText
-
-       let likesNumber = parseInt(likeText.split(" ")[0])
-       let newNumber = likesNumber+1
-       likeText= `${newNumber} likes`
-       console.log(likeText)
-
-       let id = e.target.id
-
-       let body = {likes: newNumber}
-
-       fetch(`http://localhost:3000/toys/${id}`, {
-         method: "PATCH",
-         headers: {
-         "Content-Type": "application/json",
-         Accept: "application/json"
-         },
-         body: JSON.stringify(body)
+       
+      })//form event listener
+       document.addEventListener("click", e=>{
          
-          })
-    //    .then(resp =>resp.json())
-    //    .then(data=>{
-    //     likeText = data.likes
-    //      }
-    //  )
-      // debugger
-        })
-})
+         let likeId = parseInt(e.target.id)
+         let p = e.target.parentNode.children[2]
+         let likes = parseInt(p.innerText.split(" ")[0])
+         let newLikes = likes+1
+         console.log(newLikes)
+         
+         let options = {
+           method: "PATCH",
+           headers: {
+             "Content-Type": "application/json",
+             Accept: "application/json"
+            },
+            body: JSON.stringify({likes:newLikes})
+          }
+          
+          fetch(`http://localhost:3000/toys/${likeId}`, options )
+          .then(data =>{
+            
+            p.innerText=`${newLikes} Likes`
+             })
+             
+    })
+    
+      
+})//dom loaded
